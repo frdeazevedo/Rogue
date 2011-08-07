@@ -48,9 +48,39 @@ public class GameController {
         mGameWindow.setBaseTileMatrix(tm);
     }
     
+    public void loadObstacleMatrix(String filename) throws IOException {
+        BufferedReader in = new BufferedReader(new FileReader(new File(filename)));
+        
+        String dimension[] = in.readLine().split(",");
+        
+        TileMatrix tm = new TileMatrix(Integer.parseInt(dimension[0]),
+                                       Integer.parseInt(dimension[1]),
+                                       "res/sprites/empty.png",
+                                       "res/sprites/empty.png");
+        
+        int l = 0;
+        while(in.ready()) {
+            String ids[] = in.readLine().split(" ");
+            
+            for(int c = 0; c < ids.length; c++) {
+                String filepath = mObstaclesIdFilePath.get(ids[c]);
+                
+                if(filepath != null) {
+                    tm.getTileView(l, c).getTile().setImage(filepath);
+                }
+            }
+            
+            l++;
+        }
+        
+        in.close();
+        
+        mGameWindow.setObstacleTileMatrix(tm);
+    }
+    
     public void loadConfigurations() throws IOException {
         loadTerrains("res/config/terrains.txt");
-        //loadObstacles("res/config/obstacles.txt");
+        loadObstacles("res/config/obstacles.txt");
         //loadActives("res/config/actives.txt");
     }
     

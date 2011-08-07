@@ -1,0 +1,2 @@
+p=res/sprites/pillar.png
+c=res/sprites/woodenchest.png

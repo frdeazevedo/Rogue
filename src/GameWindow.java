@@ -17,16 +17,6 @@ public class GameWindow extends JFrame
         
         getContentPane().add(mViewport);
         
-        /*
-        mActiveTileMatrix = new TileMatrix(10, 5, "res/sprites/empty.png", "res/sprites/empty.png");
-        mActiveTileMatrix.addToContainer(mViewport);
-        
-        mObstacleTileMatrix = new TileMatrix(10, 5, "res/sprites/empty.png", "res/sprites/empty.png");
-        mObstacleTileMatrix.addToContainer(mViewport);
-        
-        mTileMatrix = new TileMatrix(10, 5, "res/sprites/sandstone.png", "res/sprites/sandstone_revealed.png");
-        mTileMatrix.addToContainer(mViewport);*/
-        
         setLayout(null);
         setSize(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,6 +47,8 @@ public class GameWindow extends JFrame
         mTileMatrix = base;
         
         mTileMatrix.addToContainer(mViewport);
+        
+        repaint();
     }
     
     public TileMatrix getBaseTileMatrix() {
@@ -64,7 +56,17 @@ public class GameWindow extends JFrame
     }
     
     public void setObstacleTileMatrix(TileMatrix obstacle) {
+        if(mObstacleTileMatrix != null) {
+            mObstacleTileMatrix.removeFromContainer(mViewport);
+        }
+        
         mObstacleTileMatrix = obstacle;
+        
+        mObstacleTileMatrix.addToContainer(mViewport);
+        
+        repaint();
+        
+        System.out.println("foi");
     }
     
     public TileMatrix getObstacleTileMatrix() {
