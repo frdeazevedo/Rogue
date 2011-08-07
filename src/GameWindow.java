@@ -17,13 +17,13 @@ public class GameWindow extends JFrame
         
         getContentPane().add(mViewport);
         
-        mActiveTileMatrix = new TileMatrix(10, 5, "res/empty.png", "res/empty.png");
+        mActiveTileMatrix = new TileMatrix(10, 5, "res/sprites/empty.png", "res/sprites/empty.png");
         mActiveTileMatrix.addToContainer(mViewport);
         
-        mObstacleTileMatrix = new TileMatrix(10, 5, "res/empty.png", "res/empty.png");
+        mObstacleTileMatrix = new TileMatrix(10, 5, "res/sprites/empty.png", "res/sprites/empty.png");
         mObstacleTileMatrix.addToContainer(mViewport);
         
-        mTileMatrix = new TileMatrix(10, 5, "res/sandstone.gif", "res/sandstone_revealed.png");
+        mTileMatrix = new TileMatrix(10, 5, "res/sprites/sandstone.png", "res/sprites/sandstone_revealed.png");
         mTileMatrix.addToContainer(mViewport);
         
         setLayout(null);
@@ -32,6 +32,7 @@ public class GameWindow extends JFrame
         setResizable(false);
         getContentPane().setBackground(Color.GRAY);
         addKeyListener(this);
+        getContentPane().addKeyListener(this);
     }
 
     @Override
@@ -48,11 +49,11 @@ public class GameWindow extends JFrame
     }
     
     public void setBaseTileMatrix(TileMatrix base) {
-        mTileMatrix.removeFromContainer(this);
+        mTileMatrix.removeFromContainer(mViewport);
     
         mTileMatrix = base;
         
-        mTileMatrix.addToContainer(this);
+        mTileMatrix.addToContainer(mViewport);
     }
     
     public TileMatrix getBaseTileMatrix() {
