@@ -1,0 +1,2 @@
+0=res/sprites/rocky.png
+1=res/sprites/sandstone.png

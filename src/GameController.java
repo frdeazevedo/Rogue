@@ -9,6 +9,13 @@ public class GameController {
         mTerrainsIdFilePath = new HashMap<String, String>();
         mObstaclesIdFilePath = new HashMap<String, String>();
         mActivesIdFilePath = new HashMap<String, String>();
+        
+        try {
+            loadConfigurations();
+        }
+        catch(IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     public void loadBaseMatrix(String filename) throws IOException {
@@ -42,9 +49,9 @@ public class GameController {
     }
     
     public void loadConfigurations() throws IOException {
-        loadTerrains("res/config/terrains.cfg");
-        loadObstacles("res/config/obstacles.cfg");
-        loadActives("res/config/actives.cfg");
+        loadTerrains("res/config/terrains.txt");
+        //loadObstacles("res/config/obstacles.txt");
+        //loadActives("res/config/actives.txt");
     }
     
     private void loadTerrains(String filename) throws IOException {
