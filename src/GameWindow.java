@@ -17,6 +17,7 @@ public class GameWindow extends JFrame
         
         getContentPane().add(mViewport);
         
+        /*
         mActiveTileMatrix = new TileMatrix(10, 5, "res/sprites/empty.png", "res/sprites/empty.png");
         mActiveTileMatrix.addToContainer(mViewport);
         
@@ -24,7 +25,7 @@ public class GameWindow extends JFrame
         mObstacleTileMatrix.addToContainer(mViewport);
         
         mTileMatrix = new TileMatrix(10, 5, "res/sprites/sandstone.png", "res/sprites/sandstone_revealed.png");
-        mTileMatrix.addToContainer(mViewport);
+        mTileMatrix.addToContainer(mViewport);*/
         
         setLayout(null);
         setSize(width, height);
@@ -49,7 +50,9 @@ public class GameWindow extends JFrame
     }
     
     public void setBaseTileMatrix(TileMatrix base) {
-        mTileMatrix.removeFromContainer(mViewport);
+        if(mTileMatrix != null) {
+            mTileMatrix.removeFromContainer(mViewport);
+        }
     
         mTileMatrix = base;
         
@@ -95,8 +98,14 @@ public class GameWindow extends JFrame
         }
         
         mTileMatrix.resetLocations(mTileMatrixXOffset, mTileMatrixYOffset);
-        mActiveTileMatrix.resetLocations(mTileMatrixXOffset, mTileMatrixYOffset);
-        mObstacleTileMatrix.resetLocations(mTileMatrixXOffset, mTileMatrixYOffset);
+        
+        if(mActiveTileMatrix != null) {
+            mActiveTileMatrix.resetLocations(mTileMatrixXOffset, mTileMatrixYOffset);
+        }
+        
+        if(mObstacleTileMatrix != null) {
+            mObstacleTileMatrix.resetLocations(mTileMatrixXOffset, mTileMatrixYOffset);
+        }
     }
     
     JPanel mViewport;

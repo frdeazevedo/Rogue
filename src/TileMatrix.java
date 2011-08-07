@@ -1,6 +1,9 @@
 import java.awt.Container;
 
 public class TileMatrix {
+    public TileMatrix() {
+    }
+
     public TileMatrix(int lines, int columns, String baseImage, String baseRevealedImage) {
         mTiles = new TileView[lines][columns];
         
