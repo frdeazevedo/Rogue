@@ -26,11 +26,10 @@ public class GameController {
             String ids[] = in.readLine().split(" ");
             
             for(int c = 0; c < ids.length; c++) {
-                if(ids[c].equals("1")) {
-                    tm.getTileView(l, c).getTile().setImage("res/sprites/sandstone.png");
-                }
-                else if(ids[c].equals("2")) {
-                    tm.getTileView(l, c).getTile().setImage("res/sprites/rocky.png");
+                String filepath = mTerrainsIdFilePath.get(ids[c]);
+                
+                if(filepath != null) {
+                    tm.getTileView(l, c).getTile().setImage(filepath);
                 }
             }
             
