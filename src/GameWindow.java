@@ -32,7 +32,7 @@ public class GameWindow extends JFrame
     
     @Override
     public void keyPressed(KeyEvent e) {
-        handleScrolling(e);
+        mGameWindowListener.handleScrolling(e);
     }
     
     @Override
@@ -91,8 +91,12 @@ public class GameWindow extends JFrame
         return mViewport;
     }
     
+    public void setGameWindowListener(GameWindowListener listener) {
+        mGameWindowListener = listener;
+    }
+    
     private void handleScrolling(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+        /*if(e.getKeyCode() == KeyEvent.VK_LEFT) {
             mTileMatrixXOffset += mTileMatrix.getTileView(0, 0).getWidth();
         }
         else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -113,7 +117,7 @@ public class GameWindow extends JFrame
         
         if(mObstacleTileMatrix != null) {
             mObstacleTileMatrix.resetLocations(mTileMatrixXOffset, mTileMatrixYOffset);
-        }
+        }*/
     }
     
     JPanel mViewport;
@@ -121,6 +125,8 @@ public class GameWindow extends JFrame
     TileMatrix mTileMatrix;
     TileMatrix mObstacleTileMatrix;
     TileMatrix mActiveTileMatrix;
+    
+    GameWindowListener mGameWindowListener;
     
     int mTileMatrixXOffset;
     int mTileMatrixYOffset;

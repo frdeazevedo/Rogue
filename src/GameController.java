@@ -1,13 +1,16 @@
+import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
-public class GameController {
+public class GameController implements GameWindowListener {
     public GameController(int width, int height) {
         mWidth = width;
         mHeight = height;
+        mMatricesXOffset = 0;
+        mMatricesYOffset = 0;
     
         mGameWindow = new GameWindow(mWidth, mHeight);
-        mGameWindow.setVisible(true);
+        mGameWindow.setGameWindowListener(this);
         
         mTerrainsIdFilePath = new HashMap<String, String>();
         mObstaclesIdFilePath = new HashMap<String, String>();
@@ -18,6 +21,34 @@ public class GameController {
         }
         catch(IOException ioe) {
             ioe.printStackTrace();
+        }
+        
+        mGameWindow.setVisible(true);
+    }
+    
+    @Override
+    public void handleScrolling(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+            mMatricesXOffset += mGameWindow.getActiveTileMatrix().getTileView(0, 0).getWidth();
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            mMatricesXOffset -= mGameWindow.getActiveTileMatrix().getTileView(0, 0).getWidth();
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_UP) {
+            mMatricesYOffset += mGameWindow.getActiveTileMatrix().getTileView(0, 0).getHeight();
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+            mMatricesYOffset -= mGameWindow.getActiveTileMatrix().getTileView(0, 0).getHeight();
+        }
+        
+        mGameWindow.getBaseTileMatrix().resetLocations(mMatricesXOffset, mMatricesYOffset);
+        
+        if(mGameWindow.getActiveTileMatrix() != null) {
+            mGameWindow.getActiveTileMatrix().resetLocations(mMatricesXOffset, mMatricesYOffset);
+        }
+        
+        if(mGameWindow.getObstacleTileMatrix() != null) {
+            mGameWindow.getObstacleTileMatrix().resetLocations(mMatricesXOffset, mMatricesYOffset);
         }
     }
 
@@ -185,4 +216,6 @@ public class GameController {
     
     private int mWidth;
     private int mHeight;
+    private int mMatricesXOffset;
+    private int mMatricesYOffset;
 }
