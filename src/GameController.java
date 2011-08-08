@@ -2,8 +2,11 @@ import java.io.*;
 import java.util.*;
 
 public class GameController {
-    public GameController() {
-        mGameWindow = new GameWindow(500,500);
+    public GameController(int width, int height) {
+        mWidth = width;
+        mHeight = height;
+    
+        mGameWindow = new GameWindow(mWidth, mHeight);
         mGameWindow.setVisible(true);
         
         mTerrainsIdFilePath = new HashMap<String, String>();
@@ -78,10 +81,64 @@ public class GameController {
         mGameWindow.setObstacleTileMatrix(tm);
     }
     
+    public void loadActiveMatrix(String filename) throws IOException {
+        BufferedReader in = new BufferedReader(new FileReader(new File(filename)));
+        
+        String dimension[] = in.readLine().split(",");
+        
+        TileMatrix tm = new TileMatrix(Integer.parseInt(dimension[0]),
+                                       Integer.parseInt(dimension[1]),
+                                       "res/sprites/empty.png",
+                                       "res/sprites/empty.png");
+        
+        int l = 0;
+        while(in.ready()) {
+            String ids[] = in.readLine().split(" ");
+            
+            for(int c = 0; c < ids.length; c++) {
+                String filepath = mActivesIdFilePath.get(ids[c]);
+                
+                if(filepath != null) {
+                    tm.getTileView(l, c).getTile().setImage(filepath);
+                }
+            }
+            
+            l++;
+        }
+        
+        in.close();
+        
+        mGameWindow.setActiveTileMatrix(tm);
+    }
+    
     public void loadConfigurations() throws IOException {
         loadTerrains("res/config/terrains.txt");
         loadObstacles("res/config/obstacles.txt");
-        //loadActives("res/config/actives.txt");
+        loadActives("res/config/actives.txt");
+    }
+    
+    public void setBaseTileImage(int x, int y, String filename) {
+        mGameWindow.getBaseTileMatrix().getTileView(x, y).getTile().setImage(filename);
+    }
+    
+    public void setObstacleTileImage(int x, int y, String filename) {
+        mGameWindow.getObstacleTileMatrix().getTileView(x, y).getTile().setImage(filename);
+    }
+    
+    public void setActiveTileImage(int x, int y, String filename) {
+        mGameWindow.getActiveTileMatrix().getTileView(x, y).getTile().setImage(filename);
+    }
+    
+    public void setBaseTileImageRevealed(int x, int y, String filename) {
+        mGameWindow.getBaseTileMatrix().getTileView(x, y).getTile().setRevealedImage(filename);
+    }
+    
+    public void setObstacleTileImageRevealed(int x, int y, String filename) {
+        mGameWindow.getObstacleTileMatrix().getTileView(x, y).getTile().setRevealedImage(filename);
+    }
+    
+    public void setActiveTileImageRevealed(int x, int y, String filename) {
+        mGameWindow.getBaseTileMatrix().getTileView(x, y).getTile().setRevealedImage(filename);
     }
     
     private void loadTerrains(String filename) throws IOException {
@@ -125,4 +182,7 @@ public class GameController {
     private HashMap<String, String> mActivesIdFilePath;
 
     private GameWindow mGameWindow;
+    
+    private int mWidth;
+    private int mHeight;
 }

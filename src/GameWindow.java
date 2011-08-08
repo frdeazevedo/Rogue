@@ -65,8 +65,6 @@ public class GameWindow extends JFrame
         mObstacleTileMatrix.addToContainer(mViewport);
         
         repaint();
-        
-        System.out.println("foi");
     }
     
     public TileMatrix getObstacleTileMatrix() {
@@ -74,7 +72,15 @@ public class GameWindow extends JFrame
     }
     
     public void setActiveTileMatrix(TileMatrix active) {
+        if(mActiveTileMatrix != null) {
+            mActiveTileMatrix.removeFromContainer(mViewport);
+        }
+        
         mActiveTileMatrix = active;
+        
+        mActiveTileMatrix.addToContainer(mViewport);
+        
+        repaint();
     }
     
     public TileMatrix getActiveTileMatrix() {
