@@ -1,10 +1,9 @@
 import java.awt.Container;
+import java.awt.image.*;
+import javax.imageio.*;
 
 public class TileMatrix {
-    public TileMatrix() {
-    }
-
-    public TileMatrix(int lines, int columns, String baseImage, String baseRevealedImage) {
+    public TileMatrix(int lines, int columns, BufferedImage baseImage, BufferedImage baseRevealedImage) {
         mTiles = new TileView[lines][columns];
         
         for(int i = 0; i < lines; i++) {
@@ -34,10 +33,10 @@ public class TileMatrix {
         }
     }
     
-    public void resetLocations(int x, int y) {
+    public void resetLocations(int w, int h, int x, int y) {
         for(int i = 0; i < mTiles.length; i++) {
             for(int j = 0; j < mTiles[i].length; j++) {
-                mTiles[i][j].resetLocation(x, y);
+                mTiles[i][j].resetLocation(w, h, x, y);
             }
         }
     }

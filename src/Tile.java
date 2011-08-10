@@ -5,46 +5,20 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Tile {
-    public Tile(String filename, String revealedFilename) {
-        setImage(filename);
-        setRevealedImage(revealedFilename);
+    public Tile(BufferedImage image, BufferedImage revealedImage) {
+        setImage(image);
+        setRevealedImage(revealedImage);
         setCoords(0, 0);
         setVisible(false);
         setRevealed(false);
     }
     
-    public Tile(String filename, String revealedFilename, int x, int y) {
-        setImage(filename);
-        setRevealedImage(revealedFilename);
-        setCoords(x, y);
-        setVisible(false);
-        setRevealed(false);
+    public void setImage(BufferedImage image) {
+        mImage = image;
     }
     
-    public Tile(String filename, String revealedFilename, int x, int y, boolean visible, boolean revealed) {
-        setImage(filename);
-        setRevealedImage(revealedFilename);
-        setCoords(x, y);
-        setRevealed(revealed);
-        setVisible(visible);
-    }
-
-    public void setImage(String filename) {
-        try {
-            mImage = ImageIO.read(new File(filename));
-        }
-        catch(IOException ioe) {
-            ioe.printStackTrace();
-        }
-    }
-    
-    public void setRevealedImage(String filename) {
-        try {
-            mRevealedImage = ImageIO.read(new File(filename));
-        }
-        catch(IOException ioe) {
-            ioe.printStackTrace();
-        }
+    public void setRevealedImage(BufferedImage image) {
+        mRevealedImage = image;
     }
     
     public void setCoords(int x, int y) {

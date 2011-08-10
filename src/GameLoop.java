@@ -12,7 +12,5 @@ public class GameLoop {
         catch(Exception e) {
             e.printStackTrace();
         }
-        
-        gc.setActiveTileImage(2, 2, "res/sprites/hero.png");
     }
 }

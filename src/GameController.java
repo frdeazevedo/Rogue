@@ -1,6 +1,8 @@
+import java.awt.image.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
+import javax.imageio.*;
 
 public class GameController implements GameWindowListener {
     public GameController(int width, int height) {
@@ -8,13 +10,11 @@ public class GameController implements GameWindowListener {
         mHeight = height;
         mMatricesXOffset = 0;
         mMatricesYOffset = 0;
+        mVariableImageSize = 0;
     
         mGameWindow = new GameWindow(mWidth, mHeight);
-        mGameWindow.setGameWindowListener(this);
         
-        mTerrainsIdFilePath = new HashMap<String, String>();
-        mObstaclesIdFilePath = new HashMap<String, String>();
-        mActivesIdFilePath = new HashMap<String, String>();
+        mImageManager = ImageManager.getInstance();
         
         try {
             loadConfigurations();
@@ -23,6 +23,7 @@ public class GameController implements GameWindowListener {
             ioe.printStackTrace();
         }
         
+        mGameWindow.setGameWindowListener(this);
         mGameWindow.setVisible(true);
     }
     
@@ -41,14 +42,16 @@ public class GameController implements GameWindowListener {
             mMatricesYOffset -= mGameWindow.getActiveTileMatrix().getTileView(0, 0).getHeight();
         }
         
-        mGameWindow.getBaseTileMatrix().resetLocations(mMatricesXOffset, mMatricesYOffset);
+        if(mGameWindow.getBaseTileMatrix() != null) {
+            mGameWindow.getBaseTileMatrix().resetLocations(mVariableImageSize, mVariableImageSize, mMatricesXOffset, mMatricesYOffset);
+        }
         
         if(mGameWindow.getActiveTileMatrix() != null) {
-            mGameWindow.getActiveTileMatrix().resetLocations(mMatricesXOffset, mMatricesYOffset);
+            mGameWindow.getActiveTileMatrix().resetLocations(mVariableImageSize, mVariableImageSize, mMatricesXOffset, mMatricesYOffset);
         }
         
         if(mGameWindow.getObstacleTileMatrix() != null) {
-            mGameWindow.getObstacleTileMatrix().resetLocations(mMatricesXOffset, mMatricesYOffset);
+            mGameWindow.getObstacleTileMatrix().resetLocations(mVariableImageSize, mVariableImageSize, mMatricesXOffset, mMatricesYOffset);
         }
     }
 
@@ -59,19 +62,16 @@ public class GameController implements GameWindowListener {
         
         TileMatrix tm = new TileMatrix(Integer.parseInt(dimension[0]),
                                        Integer.parseInt(dimension[1]),
-                                       "res/sprites/empty.png",
-                                       "res/sprites/empty.png");
+                                       null,
+                                       null);
         
         int l = 0;
         while(in.ready()) {
             String ids[] = in.readLine().split(" ");
             
             for(int c = 0; c < ids.length; c++) {
-                String filepath = mTerrainsIdFilePath.get(ids[c]);
-                
-                if(filepath != null) {
-                    tm.getTileView(l, c).getTile().setImage(filepath);
-                }
+                tm.getTileView(l, c).getTile().setImage(mImageManager.getImage(ids[c]));
+                tm.getTileView(l, c).resetLocation(mVariableImageSize, mVariableImageSize, mMatricesXOffset, mMatricesYOffset);
             }
             
             l++;
@@ -89,19 +89,16 @@ public class GameController implements GameWindowListener {
         
         TileMatrix tm = new TileMatrix(Integer.parseInt(dimension[0]),
                                        Integer.parseInt(dimension[1]),
-                                       "res/sprites/empty.png",
-                                       "res/sprites/empty.png");
+                                       null,
+                                       null);
         
         int l = 0;
         while(in.ready()) {
             String ids[] = in.readLine().split(" ");
             
             for(int c = 0; c < ids.length; c++) {
-                String filepath = mObstaclesIdFilePath.get(ids[c]);
-                
-                if(filepath != null) {
-                    tm.getTileView(l, c).getTile().setImage(filepath);
-                }
+                tm.getTileView(l, c).getTile().setImage(mImageManager.getImage(ids[c]));
+                tm.getTileView(l, c).resetLocation(mVariableImageSize, mVariableImageSize, mMatricesXOffset, mMatricesYOffset);
             }
             
             l++;
@@ -119,19 +116,16 @@ public class GameController implements GameWindowListener {
         
         TileMatrix tm = new TileMatrix(Integer.parseInt(dimension[0]),
                                        Integer.parseInt(dimension[1]),
-                                       "res/sprites/empty.png",
-                                       "res/sprites/empty.png");
+                                       null,
+                                       null);
         
         int l = 0;
         while(in.ready()) {
             String ids[] = in.readLine().split(" ");
             
             for(int c = 0; c < ids.length; c++) {
-                String filepath = mActivesIdFilePath.get(ids[c]);
-                
-                if(filepath != null) {
-                    tm.getTileView(l, c).getTile().setImage(filepath);
-                }
+                tm.getTileView(l, c).getTile().setImage(mImageManager.getImage(ids[c]));
+                tm.getTileView(l, c).resetLocation(mVariableImageSize, mVariableImageSize, mMatricesXOffset, mMatricesYOffset);
             }
             
             l++;
@@ -143,33 +137,46 @@ public class GameController implements GameWindowListener {
     }
     
     public void loadConfigurations() throws IOException {
+        loadVariables("res/config/variables.txt");
         loadTerrains("res/config/terrains.txt");
         loadObstacles("res/config/obstacles.txt");
         loadActives("res/config/actives.txt");
     }
     
-    public void setBaseTileImage(int x, int y, String filename) {
-        mGameWindow.getBaseTileMatrix().getTileView(x, y).getTile().setImage(filename);
+    public void setBaseTileImage(int x, int y, BufferedImage image) {
+        mGameWindow.getBaseTileMatrix().getTileView(x, y).getTile().setImage(image);
     }
     
-    public void setObstacleTileImage(int x, int y, String filename) {
-        mGameWindow.getObstacleTileMatrix().getTileView(x, y).getTile().setImage(filename);
+    public void setObstacleTileImage(int x, int y, BufferedImage image) {
+        mGameWindow.getObstacleTileMatrix().getTileView(x, y).getTile().setImage(image);
     }
     
-    public void setActiveTileImage(int x, int y, String filename) {
-        mGameWindow.getActiveTileMatrix().getTileView(x, y).getTile().setImage(filename);
+    public void setActiveTileImage(int x, int y, BufferedImage image) {
+        mGameWindow.getActiveTileMatrix().getTileView(x, y).getTile().setImage(image);
     }
     
-    public void setBaseTileImageRevealed(int x, int y, String filename) {
-        mGameWindow.getBaseTileMatrix().getTileView(x, y).getTile().setRevealedImage(filename);
+    public void setBaseTileImageRevealed(int x, int y, BufferedImage image) {
+        mGameWindow.getBaseTileMatrix().getTileView(x, y).getTile().setRevealedImage(image);
     }
     
-    public void setObstacleTileImageRevealed(int x, int y, String filename) {
-        mGameWindow.getObstacleTileMatrix().getTileView(x, y).getTile().setRevealedImage(filename);
+    public void setObstacleTileImageRevealed(int x, int y, BufferedImage image) {
+        mGameWindow.getObstacleTileMatrix().getTileView(x, y).getTile().setRevealedImage(image);
     }
     
-    public void setActiveTileImageRevealed(int x, int y, String filename) {
-        mGameWindow.getBaseTileMatrix().getTileView(x, y).getTile().setRevealedImage(filename);
+    public void setActiveTileImageRevealed(int x, int y, BufferedImage image) {
+        mGameWindow.getBaseTileMatrix().getTileView(x, y).getTile().setRevealedImage(image);
+    }
+    
+    private void loadVariables(String filename) throws IOException {
+        BufferedReader in = new BufferedReader(new FileReader(new File(filename)));
+        
+        while(in.ready()) {
+            String pair[] = in.readLine().split("=");
+            
+            if(pair[0].equalsIgnoreCase("image_size")) {
+                mVariableImageSize = Integer.parseInt(pair[1]);
+            }
+        }
     }
     
     private void loadTerrains(String filename) throws IOException {
@@ -178,7 +185,8 @@ public class GameController implements GameWindowListener {
         while(in.ready()) {
             String pair[] = in.readLine().split("=");
             
-            mTerrainsIdFilePath.put(pair[0], pair[1]);
+            mImageManager.putImage(pair[0], pair[1]);
+            System.out.println(pair[0] + " " + pair[1]);
         }
         
         in.close();
@@ -190,7 +198,7 @@ public class GameController implements GameWindowListener {
         while(in.ready()) {
             String pair[] = in.readLine().split("=");
             
-            mObstaclesIdFilePath.put(pair[0], pair[1]);
+            mImageManager.putImage(pair[0], pair[1]);
         }
         
         in.close();
@@ -202,20 +210,19 @@ public class GameController implements GameWindowListener {
         while(in.ready()) {
             String pair[] = in.readLine().split("=");
             
-            mActivesIdFilePath.put(pair[0], pair[1]);
+            mImageManager.putImage(pair[0], pair[1]);
         }
         
         in.close();
     }
-    
-    private HashMap<String, String> mTerrainsIdFilePath;
-    private HashMap<String, String> mObstaclesIdFilePath;
-    private HashMap<String, String> mActivesIdFilePath;
 
     private GameWindow mGameWindow;
+    
+    private ImageManager mImageManager;
     
     private int mWidth;
     private int mHeight;
     private int mMatricesXOffset;
     private int mMatricesYOffset;
+    private int mVariableImageSize;
 }

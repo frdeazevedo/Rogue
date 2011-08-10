@@ -24,6 +24,11 @@ public class Coord2 {
     public int getY() {
         return mY;
     }
+    
+    @Override
+    public String toString() {
+        return mX + ", " + mY;
+    }
 
     private int mX;
     private int mY;

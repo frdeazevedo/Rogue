@@ -45,7 +45,6 @@ public class GameWindow extends JFrame
         }
     
         mTileMatrix = base;
-        
         mTileMatrix.addToContainer(mViewport);
         
         repaint();
@@ -93,31 +92,6 @@ public class GameWindow extends JFrame
     
     public void setGameWindowListener(GameWindowListener listener) {
         mGameWindowListener = listener;
-    }
-    
-    private void handleScrolling(KeyEvent e) {
-        /*if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-            mTileMatrixXOffset += mTileMatrix.getTileView(0, 0).getWidth();
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            mTileMatrixXOffset -= mTileMatrix.getTileView(0, 0).getWidth();
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_UP) {
-            mTileMatrixYOffset += mTileMatrix.getTileView(0, 0).getHeight();
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-            mTileMatrixYOffset -= mTileMatrix.getTileView(0, 0).getHeight();
-        }
-        
-        mTileMatrix.resetLocations(mTileMatrixXOffset, mTileMatrixYOffset);
-        
-        if(mActiveTileMatrix != null) {
-            mActiveTileMatrix.resetLocations(mTileMatrixXOffset, mTileMatrixYOffset);
-        }
-        
-        if(mObstacleTileMatrix != null) {
-            mObstacleTileMatrix.resetLocations(mTileMatrixXOffset, mTileMatrixYOffset);
-        }*/
     }
     
     JPanel mViewport;
