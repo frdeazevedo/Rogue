@@ -33,6 +33,7 @@ public class GameWindow extends JFrame
     @Override
     public void keyPressed(KeyEvent e) {
         mGameWindowListener.handleScrolling(e);
+        repaint();
     }
     
     @Override

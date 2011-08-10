@@ -24,8 +24,6 @@ public class TileView extends JPanel {
     }
     
     public void resetLocation(int w, int h, int offsetx, int offsety) {
-        //System.out.println("T: " + (mTile.getCoords().getX() * w + offsetx) + "\nL: " + (mTile.getCoords().getY() * h + offsety));
-        System.out.println("w = " + w + " h = " + h + " (" + offsetx + "," + offsety + ")");
         setLocation(mTile.getCoords().getX() * w + offsetx,
                     mTile.getCoords().getY() * h + offsety);
     }
