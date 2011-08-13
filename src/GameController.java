@@ -30,29 +30,23 @@ public class GameController implements GameWindowListener {
     @Override
     public void handleScrolling(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-            mMatricesXOffset += mGameWindow.getActiveTileMatrix().getTileView(0, 0).getWidth();
+            if(X + 1 < 5) X += 1;
         }
         else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            mMatricesXOffset -= mGameWindow.getActiveTileMatrix().getTileView(0, 0).getWidth();
+            if(X - 1 >= 0) X -= 1;
         }
         else if(e.getKeyCode() == KeyEvent.VK_UP) {
-            mMatricesYOffset += mGameWindow.getActiveTileMatrix().getTileView(0, 0).getHeight();
+            if(Y + 1 <= 5) Y += 1;
         }
         else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-            mMatricesYOffset -= mGameWindow.getActiveTileMatrix().getTileView(0, 0).getHeight();
+            if(Y - 1 >= 0) Y -= 1;
         }
         
-        if(mGameWindow.getBaseTileMatrix() != null) {
-            mGameWindow.getBaseTileMatrix().resetLocations(mVariableImageSize, mVariableImageSize, mMatricesXOffset, mMatricesYOffset);
-        }
-        
-        if(mGameWindow.getActiveTileMatrix() != null) {
-            mGameWindow.getActiveTileMatrix().resetLocations(mVariableImageSize, mVariableImageSize, mMatricesXOffset, mMatricesYOffset);
-        }
-        
-        if(mGameWindow.getObstacleTileMatrix() != null) {
-            mGameWindow.getObstacleTileMatrix().resetLocations(mVariableImageSize, mVariableImageSize, mMatricesXOffset, mMatricesYOffset);
-        }
+        mGameWindow.centerOnTile(X, Y, 32, 32);
+    }
+    
+    public void centerScreen() {
+        mGameWindow.centerOnTile(X, Y, 32, 32);
     }
 
     public void loadBaseMatrix(String filename) throws IOException {
@@ -167,6 +161,10 @@ public class GameController implements GameWindowListener {
         mGameWindow.getBaseTileMatrix().getTileView(x, y).getTile().setRevealedImage(image);
     }
     
+    public void updateScreen() {
+        mGameWindow.repaint();
+    }
+    
     private void loadVariables(String filename) throws IOException {
         BufferedReader in = new BufferedReader(new FileReader(new File(filename)));
         
@@ -225,4 +223,9 @@ public class GameController implements GameWindowListener {
     private int mMatricesXOffset;
     private int mMatricesYOffset;
     private int mVariableImageSize;
+    
+    int X = 0;
+    int Y = 0;
+    
+    Creature hero;
 }

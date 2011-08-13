@@ -1,11 +1,14 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.awt.image.*;
 
 public class GameWindow extends JFrame
                         implements KeyListener {
     public GameWindow(int width, int height) {
         super();
+        
+        setIconImage(Toolkit.getDefaultToolkit().getImage("res/images/icon64.png"));
         
         mTileMatrixXOffset = 0;
         mTileMatrixYOffset = 0;
@@ -49,6 +52,19 @@ public class GameWindow extends JFrame
         mTileMatrix.addToContainer(mViewport);
         
         repaint();
+    }
+    
+    public void centerOnTile(int x, int y, int tw, int th) {
+        int w = (int)mViewport.getSize().getWidth();
+        int h = (int)mViewport.getSize().getHeight();
+        int a = x * tw;
+        int b = y * th;
+        
+        mTileMatrix.resetLocations(tw, th, w/2-a, h/2-b);
+        mObstacleTileMatrix.resetLocations(tw, th, w/2-a, h/2-b);
+        mActiveTileMatrix.resetLocations(tw, th, w/2-a, h/2-b);
+        
+        System.out.println(x + ", " + y);
     }
     
     public TileMatrix getBaseTileMatrix() {
