@@ -15,7 +15,7 @@ public class GameLoop {
         catch(Exception e) {
             e.printStackTrace();
         }
-        
+        /*
         try{
             ImageManager imageManager = ImageManager.getInstance();
             imageManager.putImage("hero", "res/sprites/hero.png");
@@ -25,6 +25,6 @@ public class GameLoop {
         }
         catch(Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

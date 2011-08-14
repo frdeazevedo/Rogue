@@ -29,20 +29,28 @@ public class GameController implements GameWindowListener {
     
     @Override
     public void handleScrolling(KeyEvent e) {
+        int px = X;
+        int py = Y;
+    
         if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-            if(X + 1 < mXTiles) X += 1;
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
             if(X - 1 >= 0) X -= 1;
         }
-        else if(e.getKeyCode() == KeyEvent.VK_UP) {
-            if(Y + 1 < mYTiles) Y += 1;
+        else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            if(X + 1 < mXTiles) X += 1;
         }
-        else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+        else if(e.getKeyCode() == KeyEvent.VK_UP) {
             if(Y - 1 >= 0) Y -= 1;
         }
+        else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+            if(Y + 1 < mYTiles) Y += 1;
+        }
         
-        //setActiveTileImage(X, Y, ImageManager.getInstance().getImage("H"));
+        setActiveTileImage(px, py, null);
+        
+        if(X >= 0 && X < mXTiles && Y >= 0 && Y < mYTiles) {
+            setActiveTileImage(X, Y, mImageManager.getImage("H"));
+            System.out.println(mImageManager);
+        }
         
         mGameWindow.centerOnTile(X, Y, mVariableImageSize, mVariableImageSize);
     }
@@ -154,8 +162,6 @@ public class GameController implements GameWindowListener {
     
     public void setActiveTileImage(int x, int y, BufferedImage image) {
         mGameWindow.getActiveTileMatrix().getTileView(x, y).getTile().setImage(image);
-        mGameWindow.getActiveTileMatrix().getTileView(x, y).setTileVisible(true);
-        mGameWindow.getActiveTileMatrix().getTileView(x, y).setVisible(true);
         mGameWindow.getActiveTileMatrix().getTileView(x, y).repaint();
     }
     

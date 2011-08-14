@@ -32,5 +32,16 @@ public class ImageManager {
         mHashMapImages.remove(keyname);
     }
     
+    @Override
+    public String toString() {
+        String str = "";
+        
+        for(String key:mHashMapImages.keySet()) {
+            str += key + ", ";
+        }
+        
+        return str;
+    }
+    
     private HashMap<String, BufferedImage> mHashMapImages;
 }

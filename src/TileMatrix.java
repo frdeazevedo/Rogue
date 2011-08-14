@@ -37,11 +37,8 @@ public class TileMatrix {
         for(int i = 0; i < mTiles.length; i++) {
             for(int j = 0; j < mTiles[i].length; j++) {
                 mTiles[i][j].resetLocation(w, h, x, y);
-                System.out.println(i + " " + j + " w=" + w + " h=" + h + " x=" + x + " y=" + y);
             }
         }
-        
-        System.out.println();
     }
     
     public TileView getTileView(int x, int y) {
