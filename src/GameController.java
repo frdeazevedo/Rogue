@@ -30,29 +30,30 @@ public class GameController implements GameWindowListener {
     @Override
     public void handleScrolling(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-            if(X + 1 < 5) X += 1;
+            if(X + 1 < mXTiles) X += 1;
         }
         else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
             if(X - 1 >= 0) X -= 1;
         }
         else if(e.getKeyCode() == KeyEvent.VK_UP) {
-            if(Y + 1 <= 5) Y += 1;
+            if(Y + 1 < mYTiles) Y += 1;
         }
         else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
             if(Y - 1 >= 0) Y -= 1;
         }
         
-        mGameWindow.centerOnTile(X, Y, 32, 32);
+        //setActiveTileImage(X, Y, ImageManager.getInstance().getImage("H"));
+        
+        mGameWindow.centerOnTile(X, Y, mVariableImageSize, mVariableImageSize);
     }
     
-    public void centerScreen() {
-        mGameWindow.centerOnTile(X, Y, 32, 32);
-    }
-
     public void loadBaseMatrix(String filename) throws IOException {
         BufferedReader in = new BufferedReader(new FileReader(new File(filename)));
         
         String dimension[] = in.readLine().split(",");
+        
+        mXTiles = Integer.parseInt(dimension[0]);
+        mYTiles = Integer.parseInt(dimension[1]);
         
         TileMatrix tm = new TileMatrix(Integer.parseInt(dimension[0]),
                                        Integer.parseInt(dimension[1]),
@@ -81,6 +82,9 @@ public class GameController implements GameWindowListener {
         
         String dimension[] = in.readLine().split(",");
         
+        mXTiles = Integer.parseInt(dimension[0]);
+        mYTiles = Integer.parseInt(dimension[1]);
+        
         TileMatrix tm = new TileMatrix(Integer.parseInt(dimension[0]),
                                        Integer.parseInt(dimension[1]),
                                        null,
@@ -107,6 +111,9 @@ public class GameController implements GameWindowListener {
         BufferedReader in = new BufferedReader(new FileReader(new File(filename)));
         
         String dimension[] = in.readLine().split(",");
+        
+        mXTiles = Integer.parseInt(dimension[0]);
+        mYTiles = Integer.parseInt(dimension[1]);
         
         TileMatrix tm = new TileMatrix(Integer.parseInt(dimension[0]),
                                        Integer.parseInt(dimension[1]),
@@ -147,6 +154,9 @@ public class GameController implements GameWindowListener {
     
     public void setActiveTileImage(int x, int y, BufferedImage image) {
         mGameWindow.getActiveTileMatrix().getTileView(x, y).getTile().setImage(image);
+        mGameWindow.getActiveTileMatrix().getTileView(x, y).setTileVisible(true);
+        mGameWindow.getActiveTileMatrix().getTileView(x, y).setVisible(true);
+        mGameWindow.getActiveTileMatrix().getTileView(x, y).repaint();
     }
     
     public void setBaseTileImageRevealed(int x, int y, BufferedImage image) {
@@ -184,7 +194,6 @@ public class GameController implements GameWindowListener {
             String pair[] = in.readLine().split("=");
             
             mImageManager.putImage(pair[0], pair[1]);
-            System.out.println(pair[0] + " " + pair[1]);
         }
         
         in.close();
@@ -223,6 +232,8 @@ public class GameController implements GameWindowListener {
     private int mMatricesXOffset;
     private int mMatricesYOffset;
     private int mVariableImageSize;
+    private int mXTiles;
+    private int mYTiles;
     
     int X = 0;
     int Y = 0;

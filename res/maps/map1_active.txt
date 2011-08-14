@@ -1,6 +1,6 @@
 5,5
-p 1 1 1 p
-1 0 0 0 H
-1 0 0 0 1
-H 0 0 0 1
-p 1 1 1 p
+H H H H H
+H H H H H
+H H H H H
+H H H H H
+H H H H H

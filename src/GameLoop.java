@@ -8,21 +8,19 @@ public class GameLoop {
         GameController gc = new GameController(352, 384);
         
         try {
-            gc.loadObstacleMatrix("res/maps/map1_obstacle.txt");
             gc.loadActiveMatrix("res/maps/map1_active.txt");
+            gc.loadObstacleMatrix("res/maps/map1_obstacle.txt");
             gc.loadBaseMatrix("res/maps/map1_terrain.txt");
-            gc.centerScreen();
         }
         catch(Exception e) {
             e.printStackTrace();
         }
         
         try{
-            Creature hero = new Creature();
-            hero.mImage = ImageIO.read(new File("res/sprites/hero.png"));
-            hero.mCoord = new Coord2(0, 0);
+            ImageManager imageManager = ImageManager.getInstance();
+            imageManager.putImage("hero", "res/sprites/hero.png");
             
-            gc.setActiveTileImage(hero.mCoord.getX(), hero.mCoord.getY(), hero.mImage);
+            gc.setActiveTileImage(0, 0, imageManager.getImage("hero"));
             gc.updateScreen();
         }
         catch(Exception e) {

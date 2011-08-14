@@ -60,11 +60,9 @@ public class GameWindow extends JFrame
         int a = x * tw;
         int b = y * th;
         
-        mTileMatrix.resetLocations(tw, th, w/2-a, h/2-b);
         mObstacleTileMatrix.resetLocations(tw, th, w/2-a, h/2-b);
+        mTileMatrix.resetLocations(tw, th, w/2-a, h/2-b);
         mActiveTileMatrix.resetLocations(tw, th, w/2-a, h/2-b);
-        
-        System.out.println(x + ", " + y);
     }
     
     public TileMatrix getBaseTileMatrix() {
@@ -77,7 +75,6 @@ public class GameWindow extends JFrame
         }
         
         mObstacleTileMatrix = obstacle;
-        
         mObstacleTileMatrix.addToContainer(mViewport);
         
         repaint();
@@ -93,7 +90,6 @@ public class GameWindow extends JFrame
         }
         
         mActiveTileMatrix = active;
-        
         mActiveTileMatrix.addToContainer(mViewport);
         
         repaint();
