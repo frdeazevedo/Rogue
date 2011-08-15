@@ -29,30 +29,47 @@ public class GameController implements GameWindowListener {
     
     @Override
     public void handleScrolling(KeyEvent e) {
-        int px = X;
-        int py = Y;
+        int px = mHero.getCoords().getX();
+        int py = mHero.getCoords().getY();
+        int x = px;
+        int y = py;
     
         if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-            if(X - 1 >= 0) X -= 1;
+            if(x - 1 >= 0) x -= 1;
         }
         else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            if(X + 1 < mXTiles) X += 1;
+            if(x + 1 < mXTiles) x += 1;
         }
         else if(e.getKeyCode() == KeyEvent.VK_UP) {
-            if(Y - 1 >= 0) Y -= 1;
+            if(y - 1 >= 0) y -= 1;
         }
         else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-            if(Y + 1 < mYTiles) Y += 1;
+            if(y + 1 < mYTiles) y += 1;
         }
         
         setActiveTileImage(px, py, null);
         
-        if(X >= 0 && X < mXTiles && Y >= 0 && Y < mYTiles) {
-            setActiveTileImage(X, Y, mImageManager.getImage("H"));
-            System.out.println(mImageManager);
+        if(x >= 0 && x < mXTiles && y >= 0 && y < mYTiles) {
+            mHero.setCoords(x, y);
+            setActiveTileImage(x, y, mHero.getImage());
         }
         
-        mGameWindow.centerOnTile(X, Y, mVariableImageSize, mVariableImageSize);
+        if(mXTiles * mVariableImageSize < mGameWindow.getWidth() &&
+           mYTiles * mVariableImageSize < mGameWindow.getHeight()) return;
+        
+        mGameWindow.centerOnTile(x, y, mVariableImageSize, mVariableImageSize);
+        
+        //updateStates
+        //processAI
+    }
+    
+    public void centerScreenOnCoord(int x, int y) {
+        mGameWindow.centerOnTile(x, y, mVariableImageSize, mVariableImageSize);
+        mGameWindow.repaint();
+    }
+    
+    public void setHero(Creature h) {
+        mHero = h;
     }
     
     public void loadBaseMatrix(String filename) throws IOException {
@@ -244,5 +261,5 @@ public class GameController implements GameWindowListener {
     int X = 0;
     int Y = 0;
     
-    Creature hero;
+    Creature mHero;
 }
