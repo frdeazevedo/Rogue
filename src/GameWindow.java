@@ -8,7 +8,7 @@ public class GameWindow extends JFrame
     public GameWindow(int width, int height) {
         super();
         
-        setIconImage(Toolkit.getDefaultToolkit().getImage("res/images/icon64.png"));
+        setIconImage(Toolkit.getDefaultToolkit().getImage("res/images/icon.png"));
         
         mTileMatrixXOffset = 0;
         mTileMatrixYOffset = 0;
