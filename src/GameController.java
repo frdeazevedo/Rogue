@@ -23,6 +23,7 @@ public class GameController implements GameWindowListener {
             ioe.printStackTrace();
         }
         
+        mGameWindow.setLocationRelativeTo(null);
         mGameWindow.setGameWindowListener(this);
         mGameWindow.setVisible(true);
     }
@@ -54,10 +55,10 @@ public class GameController implements GameWindowListener {
             setActiveTileImage(x, y, mHero.getImage());
         }
         
-        if(mXTiles * mVariableImageSize < mGameWindow.getWidth() &&
-           mYTiles * mVariableImageSize < mGameWindow.getHeight()) return;
-        
-        mGameWindow.centerOnTile(x, y, mVariableImageSize, mVariableImageSize);
+        //if((mXTiles * mVariableImageSize) + (mMatricesXOffset * mVariableImageSize) >= mGameWindow.getWidth() ||
+        //   (mYTiles * mVariableImageSize) + (mMatricesYOffset * mVariableImageSize) >= mGameWindow.getHeight()) {
+            mGameWindow.centerOnTile(x, y, mVariableImageSize, mVariableImageSize);
+        //}
         
         //updateStates
         //processAI
@@ -257,9 +258,6 @@ public class GameController implements GameWindowListener {
     private int mVariableImageSize;
     private int mXTiles;
     private int mYTiles;
-    
-    int X = 0;
-    int Y = 0;
     
     Creature mHero;
 }
